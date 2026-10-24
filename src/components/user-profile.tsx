@@ -3,12 +3,17 @@ import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { useStore } from '@store/index'
 import { useForm } from 'react-hook-form'
+import { useShallow } from 'zustand/react/shallow'
 
 export function UserProfile() {
   console.log('UserProfile rendered')
 
-  const user = useStore((state) => state.user)
-  const setUsername = useStore((state) => state.setUsername)
+  const { user, setUsername } = useStore(
+    useShallow((state) => ({
+      user: state.user,
+      setUsername: state.setUsername,
+    })),
+  )
 
   const form = useForm({
     defaultValues: user,
@@ -36,7 +41,7 @@ export function UserProfile() {
 
       <form className="flex flex-col gap-4 sm:flex-row" onSubmit={handleSubmit}>
         <Input {...form.register('username')} />
-        <Button>Salvar</Button>
+        <Button type="submit">Salvar</Button>
       </form>
     </div>
   )

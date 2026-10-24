@@ -1,11 +1,16 @@
 import { Button } from '@components/ui/button'
 import { useStore } from '@store/index'
+import { useShallow } from 'zustand/react/shallow'
 
 export function Counter() {
   console.log('Counter rendered')
 
-  const counter = useStore((state) => state.counter)
-  const increment = useStore((state) => state.increment)
+  const { counter, increment } = useStore(
+    useShallow((state) => ({
+      counter: state.counter,
+      increment: state.increment,
+    })),
+  )
 
   return (
     <div className="grid place-items-center space-y-4">

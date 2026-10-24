@@ -1,14 +1,12 @@
-import { Button } from '@components/ui/button'
-import { useStore } from '@store/index'
+import { Counter } from '@components/counter'
+import { UserProfile } from './components/user-profile'
 
 export function App() {
-  const store = useStore()
-
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center gap-8">
-      <h1>Counter: {store.counter}</h1>
+    <div className="mx-auto flex min-h-screen w-full max-w-4xl flex-col justify-center gap-16 p-5">
+      <Counter />
 
-      <Button onClick={store.increment}>Incrementar</Button>
+      <UserProfile />
     </div>
   )
 }

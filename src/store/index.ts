@@ -1,9 +1,12 @@
 import { create } from 'zustand'
-import { createJSONStorage, devtools, persist } from 'zustand/middleware'
+import { devtools } from 'zustand/middleware'
+import { immer } from 'zustand/middleware/immer'
 
 interface IStore {
   counter: number
   user: {
+    name: string
+    email: string
     username: string
   }
 }
@@ -15,34 +18,21 @@ interface IActions {
 
 export const useStore = create<IStore & IActions>()(
   devtools(
-    persist(
-      (set) => ({
-        counter: 0,
-        user: {
-          username: 'andersonkaiti',
-        },
-        increment: () =>
-          set(
-            (prevState) => ({
-              counter: prevState.counter + 1,
-            }),
-            false,
-            'counter-increment',
-          ),
-        setUsername: (username: string) =>
-          set({
-            user: { username },
-          }),
-      }),
-      {
-        name: '@zustand-course/store',
-        storage: createJSONStorage(() => sessionStorage),
+    immer((set) => ({
+      counter: 0,
+      user: {
+        name: 'Anderson',
+        email: 'anderkaiti@gmail.com',
+        username: 'andersonkaiti',
       },
-    ),
-    {
-      enabled: import.meta.env.DEV,
-      name: 'Global store',
-      store: 'global',
-    },
+      increment: () =>
+        set((prevState) => ({
+          counter: prevState.counter + 1,
+        })),
+      setUsername: (username: string) =>
+        set((prevState) => {
+          prevState.user.username = username
+        }),
+    })),
   ),
 )

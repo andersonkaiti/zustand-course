@@ -10,8 +10,8 @@ export function UserProfile() {
 
   const { user, setUsername } = useStore(
     useShallow((state) => ({
-      user: state.user,
-      setUsername: state.setUsername,
+      user: state.user.data,
+      setUsername: state.user.setUsername,
     })),
   )
 
